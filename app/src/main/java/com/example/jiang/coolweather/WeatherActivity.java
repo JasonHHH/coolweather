@@ -67,14 +67,14 @@ public class WeatherActivity extends AppCompatActivity {
             //无缓存时去服务器查询天气
             String weatherId = getIntent().getStringExtra("weather_id");
             weatherLayout.setVisibility(View.INVISIBLE);
-            requsetWeather(weatherId);
+            requestWeather(weatherId);
         }
     }
 
     //根据天气ID请求城市天气信息
-    public void requsetWeather(final  String weatherId){
+    public void requestWeather(final String weatherId){
 
-        String weatherUrl = "http://guolin.tech/api/weather?cityid="+ weatherId + "&key=bc0418b57b2d4918819d3974ac1285d9";
+        String weatherUrl = "http://guolin.tech/api/weather?cityid="+ weatherId + "&key=757bf4e1b9b74841b65d988ccadeaf51";
         HttpUtil.sendOkHttpRequest(weatherUrl, new Callback() {
 
             @Override
@@ -123,12 +123,16 @@ public class WeatherActivity extends AppCompatActivity {
 
     private void showWeatherInfo(Weather weather){
         String cityName = weather.basic.cityName;
-        String updateTime = weather.basic.update.updataTime.split(" ")[1];
-        String degree = weather.now.temperature+" 'C ";
+        String updateTime = weather.basic.update.updateTime.split(" ")[1];
+        String degree = weather.now.temperature+" *C ";
         String weatherInfo = weather.now.more.info;
+
         titleCity.setText(cityName);
         titleUpdateTime.setText(updateTime);
         degreeText.setText(degree);
+        weatherInfoText.setText(weatherInfo);
+
+
         forecastLayout.removeAllViews();
 
         for (Forecast forecast : weather.forecastList){
@@ -138,7 +142,7 @@ public class WeatherActivity extends AppCompatActivity {
             TextView maxText = (TextView)findViewById(R.id.max_text);
             TextView minText = (TextView)findViewById(R.id.min_text);
 
-            dateText.setText(forecast.data);
+            dateText.setText(forecast.date);
             infoText.setText(forecast.more.info);
             maxText.setText(forecast.temperature.max);
             minText.setText(forecast.temperature.min);

@@ -29,6 +29,7 @@ public class Utility {
                 for(int i = 0 ; i < allProvinces.length(); i++){
                     JSONObject provinceObject = allProvinces.getJSONObject(i);
                     Province province = new Province();
+
                     province.setProvinceName(provinceObject.getString("name"));
                     province.setProvinceCode(provinceObject.getInt("id"));
                     province.save();
@@ -76,6 +77,7 @@ public class Utility {
                     County county = new County();
                     county.setCountyName(countyObject.getString("name"));
                     county.setWeatherId(countyObject.getString("weather_id"));
+                    county.setCityId(cityId);
                     county.save();
                 }
                 return true;
@@ -92,7 +94,7 @@ public class Utility {
             JSONObject jsonObject = new JSONObject(response);
             JSONArray jsonArray = jsonObject.getJSONArray("HeWeather");
             String weatherContent = jsonArray.getJSONObject(0).toString();
-            return new Gson().fromJson(weatherContent,Weather.class);
+            return new Gson().fromJson(weatherContent , Weather.class);
         }catch (Exception e){
             e.printStackTrace();
         }
